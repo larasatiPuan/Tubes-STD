@@ -2,13 +2,15 @@
 
 using namespace std;
 
-struct layanan {
+struct layanan
+{
     string jenis, jam;
     int jumlahPekerja;
     float diskonLayanan;
 };
 
-struct pekerja {
+struct pekerja
+{
     string nama, gender;
     int jumlahLayanan;
     float rating;
@@ -20,30 +22,36 @@ typedef struct elmLayanan *adrLayanan;
 typedef struct elmPekerja *adrPekerja;
 typedef struct elmRelation *adrRelation;
 
-struct listLayanan {
+struct listLayanan
+{
     adrLayanan first;
 };
 
-struct listPekerja {
+struct listPekerja
+{
     adrPekerja first, last;
 };
 
-struct listRelation{
+struct listRelation
+{
     adrRelation first;
 };
 
-struct elmLayanan {
+struct elmLayanan
+{
     infotypeLayanan info;
     listRelation child;
     adrLayanan next;
 };
 
-struct elmPekerja {
+struct elmPekerja
+{
     infotypePekerja info;
     adrPekerja prev, next;
 };
 
-struct elmRelation {
+struct elmRelation
+{
     adrPekerja infoChild;
     adrRelation nextChild;
 };
@@ -54,15 +62,15 @@ void createListRelation(listRelation &l);
 void createElmLayanan(adrLayanan &p, infotypeLayanan data);
 void createElmPekerja(adrPekerja &p, infotypePekerja data);
 void insertElmPekerja(listPekerja &l, adrPekerja p);
-void deleteElmPekerja(listPekerja &l, string namaPekerja); //KURANG
+void deleteElmPekerja(listPekerja &l, string namaPekerja); // KURANG
 adrPekerja findElmPekerja(listPekerja l, string namaPekerja);
 void showAllListPekerja(listPekerja l);
 
 void insertElmLayanan(listLayanan &l, adrLayanan p);
-void deleteElmLayanan(listLayanan &l, string namaLayanan); //KURANG
+void deleteElmLayanan(listLayanan &l, string namaLayanan); // KURANG
 adrLayanan findElmLayanan(listLayanan l, string namaLayanan);
 void showAllElmLayanan(listLayanan l);
 
 void insertElmRelation(listLayanan &lLayanan, listPekerja lPekerja, string namaLayanan, string namaPekerja);
-void deleteElmRelation(listLayanan &lLayanan, string namaLayanan, string namaPekerja);
-void childOfParent(listLayanan lLayanan, string namaLayanan); //INI PROCEDURE
+void deleteElmRelation(listLayanan &lLayanan, string namaLayanan, string namaPekerja); // Ini Procedure Delete Relation
+void childOfParent(listLayanan lLayanan, string namaLayanan);                          // INI PROCEDURE
