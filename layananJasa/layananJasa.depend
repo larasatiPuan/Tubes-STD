@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1732807975 source:c:\users\laras\onedrive\documents\1. tugas besar - std\layananjasa\layananjasa.cpp
+	"layananJasa.h"
+
+1732800839 c:\users\laras\onedrive\documents\1. tugas besar - std\layananjasa\layananjasa.h
+	<iostream>
+
+1732808034 source:c:\users\laras\onedrive\documents\1. tugas besar - std\layananjasa\main.cpp
+	"layananJasa.h"
+
