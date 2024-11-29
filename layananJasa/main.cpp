@@ -5,7 +5,7 @@ int main()
     listPekerja lPekerja;
     infotypePekerja data;
     adrPekerja pPekerja;
-    string tempNama;
+    string tempNama, tempNama2;
     int nData;
 
     listLayanan lLayanan;
@@ -36,14 +36,14 @@ int main()
     pPekerja = findElmPekerja(lPekerja, "Winter");
     cout << pPekerja->info.nama << " " << pPekerja->info.gender << " " << pPekerja->info.rating << endl;
 
-    for (int i = 0; i < 10; i++){
+   /* for (int i = 0; i < 10; i++){
         cout << "Masukan nama data yang akan anda hapus :";
         cin >> tempNama;
         deleteElmPekerja(lPekerja, tempNama);
         cout << endl;
         showAllListPekerja(lPekerja);
         cout << endl;
-    }
+    } */
 
     for (int i = 0; i < 3; i++) {
         cout << "Jenis : ";
@@ -60,11 +60,37 @@ int main()
     cout << endl;
     showAllElmLayanan(lLayanan);
 
-    for (int i = 0; i < 10; i++){
+    /* for (int i = 0; i < 10; i++){
         cout << "Masukan nama data yang akan anda hapus :";
         cin >> tempNama;
         deleteElmLayanan(lLayanan, tempNama);
         showAllElmLayanan(lLayanan);
         cout << endl << endl;
+    } */
+
+    cout << endl << endl << "PROSES RELATION" << endl << endl;
+    for (int i = 0; i < 2; i++) {
+        cout << "Masukan nama layanan : ";
+        cin >> tempNama;
+        cout << "Masukan nama pekerja : ";
+        cin >> tempNama2;
+        insertElmRelation(lLayanan, lPekerja, tempNama, tempNama2);
+    }
+
+    cout << "Masukan nama child dari layanan yang akan di tampilkan : ";
+    cin >> tempNama2;
+    showChildOfParent(lLayanan, tempNama2);
+
+
+    cout << findRelationFromPekerja(lLayanan, "Pembersihan_Rumah", "Winter")->infoChild->info.nama << endl;
+
+    cout << endl << endl << "PROSES HAPUS RELATION" << endl << endl;
+    for (int i = 0; i < 2; i++){
+        cout << "Masukan nama layanan : ";
+        cin >> tempNama;
+        cout << "Masukan nama pekerja : ";
+        cin >> tempNama2;
+        deleteElmRelation(lLayanan, lPekerja, tempNama, tempNama2);
+        showChildOfParent(lLayanan, tempNama);
     }
 }

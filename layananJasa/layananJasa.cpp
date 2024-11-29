@@ -41,14 +41,23 @@ void insertElmPekerja(listPekerja &l, adrPekerja p){
     }
 }
 
+void createElmRelation(adrRelation &p, adrPekerja dataPekerja){
+    p = new elmRelation;
+
+    p->infoChild = dataPekerja;
+    p->nextChild = NULL;
+}
+
 void deleteElmPekerja(listPekerja &l, string namaPekerja){
     adrPekerja del, beforeLoc;
 
     del = findElmPekerja(l, namaPekerja);
 
+    // KURANG PROCEDURE HAPUS RELATION UNTUK MEMASTIKAN APA YANG DI HAPUS TELAH TERUPDATE DI CHILD LAYANAN. AKAN DI UPDATE KAN KETIKA PROGRESS 80%
 
     if (l.first == NULL) {
-        del = NULL; //dikarenakan tidak ada yang perlu di hapus serta ketika print data sudah di atur ketika list null akan memberikan keterangan list kosong
+        del = NULL;
+        //dikarenakan tidak ada yang perlu di hapus serta ketika print data sudah di atur ketika list null akan memberikan keterangan list kosong
     } else if (del == NULL) {
         cout << "Tidak terdapat data yang tersedia pada list" << endl;
     } else if (l.first == l.last) {
@@ -176,6 +185,60 @@ void showAllElmLayanan(listLayanan l){
         while (cur != NULL) {
             cout << cur->info.jenis << ", diskon layanan " << cur->info.diskonLayanan << ", jam layanan " << cur->info.jam << ", jumlah pekerja " << cur->info.jumlahPekerja << endl;
             cur = cur->next;
+        }
+    }
+}
+
+
+//MASIH COBA - COBA - DEMO UNTUK RELATION PADA PARENT DAH CHILD. AKAN DI BENAHI KETIKA PROGRESS 80%
+
+void insertElmRelation(listLayanan &lLayanan, listPekerja lPekerja, string namaLayanan, string namaPekerja){
+    adrLayanan locLayanan;
+    adrPekerja locPekerja;
+    adrRelation pRel, cur;
+
+    locLayanan = findElmLayanan(lLayanan, namaLayanan);
+    locPekerja = findElmPekerja(lPekerja, namaPekerja);
+
+    if (locLayanan != NULL && locPekerja != NULL) {
+        createElmRelation(pRel, locPekerja);
+        if (locLayanan->child.first == NULL) {
+            locLayanan->child.first = pRel;
+        } else {
+            cur = locLayanan->child.first;
+            while (cur->nextChild != NULL) {
+                cur = cur->nextChild;
+            }
+            cur->nextChild = pRel;
+        }
+    } else {
+        cout << "Tidak terdapat nama layanan atau nama pekerja" << endl;
+    }
+}
+
+void deleteElmRelation(listLayanan &lLayanan,listPekerja lPekerja, string namaLayanan, string namaPekerja){
+    //MASIH BELUM
+}
+
+adrRelation findRelationFromPekerja(listLayanan lLayanan, string namaPekerja) {
+    //MASIH BELUM
+}
+
+void showChildOfParent(listLayanan lLayanan, string namaLayanan){
+    adrLayanan locLayanan;
+    adrRelation cur;
+
+    locLayanan = findElmLayanan(lLayanan, namaLayanan);
+
+    if (locLayanan != NULL) {
+        cur = locLayanan->child.first;
+        if (locLayanan->child.first == NULL){
+            cout << "Layanan tidak memiliki pekerja" << endl;
+        } else {
+            while (cur != NULL) {
+                cout << cur->infoChild->info.nama << " " << cur->infoChild->info.gender << " " << cur->infoChild->info.rating << endl;
+                cur = cur->nextChild;
+            }
         }
     }
 }
