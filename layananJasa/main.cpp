@@ -2,6 +2,8 @@
 
 int main()
 {
+    // NOTE : MAIN MASIH HANYA TESTIN, BELUM PENGAPLIKASIAN PROGRAM
+
     listPekerja lPekerja;
     infotypePekerja data;
     adrPekerja pPekerja;
@@ -16,10 +18,8 @@ int main()
     createListPekerja(lPekerja);
     createListLayanan(lLayanan);
 
-    cout << "Jumlah n = ";
-    cin >> nData;
-
-    for (int i = 0; i < nData; i++) {
+    cout << "Masukan 4 data pekerja" << endl;
+    for (int i = 0; i < 4; i++) {
         cout << "Nama : ";
         cin >> data.nama;
         cout << "Jumlah layanan : ";
@@ -33,18 +33,10 @@ int main()
     }
     showAllListPekerja(lPekerja);
 
-    pPekerja = findElmPekerja(lPekerja, "Winter");
-    cout << pPekerja->info.nama << " " << pPekerja->info.gender << " " << pPekerja->info.rating << endl;
 
-   /* for (int i = 0; i < 10; i++){
-        cout << "Masukan nama data yang akan anda hapus :";
-        cin >> tempNama;
-        deleteElmPekerja(lPekerja, tempNama);
-        cout << endl;
-        showAllListPekerja(lPekerja);
-        cout << endl;
-    } */
+    cout << endl << endl;
 
+    cout << "Masukan 3 data layanan" << endl;
     for (int i = 0; i < 3; i++) {
         cout << "Jenis : ";
         cin >> dataLayanan.jenis;
@@ -60,15 +52,9 @@ int main()
     cout << endl;
     showAllElmLayanan(lLayanan);
 
-    /* for (int i = 0; i < 10; i++){
-        cout << "Masukan nama data yang akan anda hapus :";
-        cin >> tempNama;
-        deleteElmLayanan(lLayanan, tempNama);
-        showAllElmLayanan(lLayanan);
-        cout << endl << endl;
-    } */
+    cout << endl << endl;
 
-    cout << endl << endl << "PROSES RELATION" << endl << endl;
+    /* cout << endl << endl << "PROSES RELATION" << endl << endl;
     for (int i = 0; i < 2; i++) {
         cout << "Masukan nama layanan : ";
         cin >> tempNama;
@@ -77,12 +63,11 @@ int main()
         insertElmRelation(lLayanan, lPekerja, tempNama, tempNama2);
     }
 
+
     cout << "Masukan nama child dari layanan yang akan di tampilkan : ";
     cin >> tempNama2;
     showChildOfParent(lLayanan, tempNama2);
 
-
-    cout << findRelationFromPekerja(lLayanan, "Pembersihan_Rumah", "Winter")->infoChild->info.nama << endl;
 
     cout << endl << endl << "PROSES HAPUS RELATION" << endl << endl;
     for (int i = 0; i < 2; i++){
@@ -92,5 +77,18 @@ int main()
         cin >> tempNama2;
         deleteElmRelation(lLayanan, lPekerja, tempNama, tempNama2);
         showChildOfParent(lLayanan, tempNama);
+    } */
+
+    cout << "Masukan data pekerja yang akan di hapus" << endl;
+    for (int i = 0; i < 5; i++){
+        cout << "Masukan nama data yang akan anda hapus :";
+        cin >> tempNama;
+        deleteElmPekerja(lPekerja, lLayanan, tempNama);
+        cout << endl;
+        cout << "Testing relation" << endl;
+        showAllListPekerja(lPekerja);
+        cout << endl;
     }
+    cout << endl;
+
 }

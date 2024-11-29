@@ -48,37 +48,37 @@ void createElmRelation(adrRelation &p, adrPekerja dataPekerja){
     p->nextChild = NULL;
 }
 
-void deleteElmPekerja(listPekerja &l, string namaPekerja){
+void deleteElmPekerja(listPekerja &l, listLayanan lL, string namaPekerja){
     adrPekerja del, beforeLoc;
 
     del = findElmPekerja(l, namaPekerja);
-
-    // KURANG PROCEDURE HAPUS RELATION UNTUK MEMASTIKAN APA YANG DI HAPUS TELAH TERUPDATE DI CHILD LAYANAN. AKAN DI UPDATE KAN KETIKA PROGRESS 80%
 
     if (l.first == NULL) {
         del = NULL;
         //dikarenakan tidak ada yang perlu di hapus serta ketika print data sudah di atur ketika list null akan memberikan keterangan list kosong
     } else if (del == NULL) {
         cout << "Tidak terdapat data yang tersedia pada list" << endl;
-    } else if (l.first == l.last) {
-        l.first = NULL;
-        l.last = NULL;
-    } else if (l.first == del) {
-        l.first = del->next;
-        del->next = NULL;
-        l.first->prev = NULL;
-    } else if (l.last == del) {
-        l.last = del->prev;
-        del->prev = NULL;
-        l.last->next = NULL;
     } else {
-        beforeLoc = del->prev;
-        del->next->prev = beforeLoc;
-        beforeLoc->next = del->next;
-        del->next = NULL;
-        del->prev = NULL;
+        // KURANG LOGIKA PENGHAPUSAN RELATION PEKERJA YANG TERHUBUNG DENGAN LIST
+        if (l.first == l.last) {
+            l.first = NULL;
+            l.last = NULL;
+        } else if (l.first == del) {
+            l.first = del->next;
+            del->next = NULL;
+            l.first->prev = NULL;
+        } else if (l.last == del) {
+            l.last = del->prev;
+            del->prev = NULL;
+            l.last->next = NULL;
+        } else {
+            beforeLoc = del->prev;
+            del->next->prev = beforeLoc;
+            beforeLoc->next = del->next;
+            del->next = NULL;
+            del->prev = NULL;
+        }
     }
-
     if (del != NULL) {
         cout << del->info.nama << " berhasil di hapus" << endl;
         delete(del);
@@ -135,7 +135,7 @@ void deleteElmLayanan(listLayanan &l, string namaLayanan) {
     adrRelation child;
 
     del = findElmLayanan(l, namaLayanan);
-
+    // KURANG LOGIKA PENGHAPUSAN RELASI PEKERJAAN DARI ELM LAYANAN
     if (l.first == NULL) {
         del = NULL;
     } else if (del == NULL){
@@ -190,7 +190,7 @@ void showAllElmLayanan(listLayanan l){
 }
 
 
-//MASIH COBA - COBA - DEMO UNTUK RELATION PADA PARENT DAH CHILD. AKAN DI BENAHI KETIKA PROGRESS 80%
+//MASIH COBA - COBA (DEMO) UNTUK RELATION PADA PARENT DAH CHILD. AKAN DI BENAHI KETIKA PROGRESS 80%
 
 void insertElmRelation(listLayanan &lLayanan, listPekerja lPekerja, string namaLayanan, string namaPekerja){
     adrLayanan locLayanan;
@@ -217,11 +217,46 @@ void insertElmRelation(listLayanan &lLayanan, listPekerja lPekerja, string namaL
 }
 
 void deleteElmRelation(listLayanan &lLayanan,listPekerja lPekerja, string namaLayanan, string namaPekerja){
-    //MASIH BELUM
+    adrLayanan locLayanan;
+    adrRelation cur, del, locRelation, beforeDel;
+
+    locLayanan = findElmLayanan(lLayanan, namaLayanan);
+    locRelation = findRelationFromPekerja(locLayanan, namaPekerja);
+    del = locRelation;
+
+    if (locLayanan != NULL && locRelation != NULL) {
+        if (locLayanan->child.first == locRelation) {
+            locLayanan->child.first = locRelation->nextChild;
+        } else {
+            beforeDel = locLayanan->child.first;
+            while (beforeDel->nextChild != NULL && beforeDel->nextChild != del) {
+                beforeDel = beforeDel->nextChild;
+            }
+            if (beforeDel->nextChild == locRelation) {
+                beforeDel->nextChild = locRelation->nextChild;
+            }
+        }
+    }
+
+    if (del != NULL){
+        delete(del);
+        del = NULL;
+    }
 }
 
-adrRelation findRelationFromPekerja(listLayanan lLayanan, string namaPekerja) {
-    //MASIH BELUM
+adrRelation findRelationFromPekerja(adrLayanan pLayanan, string namaPekerja) {
+    adrRelation hasil, cur;
+
+    cur = pLayanan->child.first;
+
+    while (cur != NULL) {
+        if (cur->infoChild->info.nama == namaPekerja) {
+            hasil = cur;
+        }
+        cur = cur->nextChild;
+    }
+
+    return hasil;
 }
 
 void showChildOfParent(listLayanan lLayanan, string namaLayanan){

@@ -63,7 +63,7 @@ void createElmLayanan(adrLayanan &p, infotypeLayanan data);
 void createElmPekerja(adrPekerja &p, infotypePekerja data);
 void createElmRelation(adrRelation &p, adrPekerja dataPekerja);
 void insertElmPekerja(listPekerja &l, adrPekerja p);
-void deleteElmPekerja(listPekerja &l, string namaPekerja); // KURANG
+void deleteElmPekerja(listPekerja &l, listLayanan lL, string namaPekerja); // KURANG
 adrPekerja findElmPekerja(listPekerja l, string namaPekerja);
 void showAllListPekerja(listPekerja l);
 
@@ -75,4 +75,4 @@ void showAllElmLayanan(listLayanan l);
 void insertElmRelation(listLayanan &lLayanan, listPekerja lPekerja, string namaLayanan, string namaPekerja);
 void deleteElmRelation(listLayanan &lLayanan, listPekerja lPekerja, string namaLayanan, string namaPekerja); // Ini Procedure Delete Relation
 void showChildOfParent(listLayanan lLayanan, string namaLayanan);                          // INI PROCEDURE
-adrRelation findRelationFromPekerja(listLayanan lLayanan, string namaPekerja, string namaLayanan);
+adrRelation findRelationFromPekerja(adrLayanan pLayanan, string namaPekerja);
