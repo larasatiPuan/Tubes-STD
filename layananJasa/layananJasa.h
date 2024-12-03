@@ -2,77 +2,77 @@
 
 using namespace std;
 
-struct layanan
+typedef struct Layanan InfotypeLayanan;
+typedef struct Pekerja InfotypePekerja;
+typedef struct ElmLayanan *AdrLayanan;
+typedef struct ElmPekerja *AdrPekerja;
+typedef struct ElmRelation *AdrRelation;
+
+struct Layanan
 {
-    string jenis, jam;
+    string jenis;
+    string jam;
     int jumlahPekerja;
     float diskonLayanan;
 };
 
-struct pekerja
+struct Pekerja
 {
-    string nama, gender;
+    string nama;
+    string gender;
     int jumlahLayanan;
     float rating;
 };
 
-typedef layanan infotypeLayanan;
-typedef pekerja infotypePekerja;
-typedef struct elmLayanan *adrLayanan;
-typedef struct elmPekerja *adrPekerja;
-typedef struct elmRelation *adrRelation;
-
-struct listLayanan
+struct ElmLayanan
 {
-    adrLayanan first;
+    InfotypeLayanan info;
+    AdrRelation child;
+    AdrLayanan next;
 };
 
-struct listPekerja
+struct ElmPekerja
 {
-    adrPekerja first, last;
+    InfotypePekerja info;
+    AdrPekerja prev;
+    AdrPekerja next;
 };
 
-struct listRelation
+struct ElmRelation
 {
-    adrRelation first;
+    AdrPekerja childPekerja;
+    AdrRelation nextChild;
 };
 
-struct elmLayanan
+struct ListLayanan
 {
-    infotypeLayanan info;
-    listRelation child;
-    adrLayanan next;
+    AdrLayanan first;
 };
 
-struct elmPekerja
+struct ListPekerja
 {
-    infotypePekerja info;
-    adrPekerja prev, next;
+    AdrPekerja first;
+    AdrPekerja last;
 };
 
-struct elmRelation
-{
-    adrPekerja infoChild;
-    adrRelation nextChild;
-};
-
-void createListLayanan(listLayanan &l);
-void createListPekerja(listPekerja &l);
-void createListRelation(listRelation &l);
-void createElmLayanan(adrLayanan &p, infotypeLayanan data);
-void createElmPekerja(adrPekerja &p, infotypePekerja data);
-void createElmRelation(adrRelation &p, adrPekerja dataPekerja);
-void insertElmPekerja(listPekerja &l, adrPekerja p);
-void deleteElmPekerja(listPekerja &l, listLayanan lL, string namaPekerja); // KURANG
-adrPekerja findElmPekerja(listPekerja l, string namaPekerja);
-void showAllListPekerja(listPekerja l);
-
-void insertElmLayanan(listLayanan &l, adrLayanan p);
-void deleteElmLayanan(listLayanan &l, string namaLayanan); // KURANG
-adrLayanan findElmLayanan(listLayanan l, string namaLayanan);
-void showAllElmLayanan(listLayanan l);
-
-void insertElmRelation(listLayanan &lLayanan, listPekerja lPekerja, string namaLayanan, string namaPekerja);
-void deleteElmRelation(listLayanan &lLayanan, listPekerja lPekerja, string namaLayanan, string namaPekerja); // Ini Procedure Delete Relation
-void showChildOfParent(listLayanan lLayanan, string namaLayanan);                          // INI PROCEDURE
-adrRelation findRelationFromPekerja(adrLayanan pLayanan, string namaPekerja);
+void createListLayanan(ListLayanan &L);
+void createListPekerja(ListPekerja &L);
+void createElmLayanan(AdrLayanan &P, InfotypeLayanan info);
+void createElmPekerja(AdrPekerja &P, InfotypePekerja info);
+void createElmRelation(AdrRelation &P, AdrPekerja childPekerja);
+void insertElmLayanan(ListLayanan &L, AdrLayanan P);
+void insertElmPekerja(ListPekerja &L, AdrPekerja P);
+void insertElmRelation(AdrLayanan &P, AdrRelation Q);
+AdrLayanan findElmLayanan(ListLayanan L, string namaLayanan);
+AdrPekerja findElmPekerja(ListPekerja L, string namaPekerja);
+AdrRelation findRelationByNamaPekerja(AdrLayanan P, string namaPekerja);
+AdrRelation findRelationByNamaLayanan(ListLayanan L, AdrPekerja P, string namaLayanan);
+void deleteElmLayanan(ListLayanan &L, string namaLayanan, AdrLayanan &P);
+void deleteElmPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaPekerja, AdrPekerja &P);
+void deleteElmRelation(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaLayanan, string namaPekerja, AdrRelation &P);
+void showAllListLayanan(ListLayanan L);
+void showAllListPekerja(ListPekerja L);
+// TODO: Implement the following functions
+void showAllRelationByNamaPekerja(ListLayanan LLayanan, ListPekerja LPekerja, string namaPekerja);
+void showAllRelationByNamaLayanan(ListLayanan LLayanan, ListPekerja LPekerja, string namaLayanan);
+// TODO: End of implementation

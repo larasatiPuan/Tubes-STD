@@ -1,279 +1,308 @@
+#include <iostream>
 #include "layananJasa.h"
 
-void createListLayanan(listLayanan &l){
-    l.first = NULL;
+void createListLayanan(ListLayanan &L)
+{
+    L.first = nullptr;
 }
 
-void createListPekerja(listPekerja &l){
-    l.first = NULL;
-    l.last = NULL;
+void createListPekerja(ListPekerja &L)
+{
+    L.first = nullptr;
+    L.last = nullptr;
 }
 
-void createListRelation(listRelation &l){
-    l.first = NULL;
+void createElmLayanan(AdrLayanan &P, InfotypeLayanan info)
+{
+    P = new ElmLayanan;
+    P->info = info;
+    P->child = nullptr;
+    P->next = nullptr;
 }
 
-void createElmLayanan(adrLayanan &p, infotypeLayanan data){
-    p = new elmLayanan;
-
-    p->info = data;
-    p->next = NULL;
-    createListRelation(p->child);
-
+void createElmPekerja(AdrPekerja &P, InfotypePekerja info)
+{
+    P = new ElmPekerja;
+    P->info = info;
+    P->next = nullptr;
+    P->prev = nullptr;
 }
 
-void createElmPekerja(adrPekerja &p, infotypePekerja data){
-    p = new elmPekerja;
-
-    p->info = data;
-    p->next = NULL;
-    p->prev = NULL;
+void createElmRelation(AdrRelation &P, AdrPekerja childPekerja)
+{
+    P = new ElmRelation;
+    P->childPekerja = childPekerja;
+    P->nextChild = nullptr;
 }
 
-void insertElmPekerja(listPekerja &l, adrPekerja p){
-    if (l.first == NULL){
-        l.first = p;
-        l.last = p;
-    } else {
-        p->prev = l.last;
-        l.last->next = p;
-        l.last = p;
+void insertElmLayanan(ListLayanan &L, AdrLayanan P)
+{
+    if (L.first == nullptr)
+    {
+        L.first = P;
     }
-}
-
-void createElmRelation(adrRelation &p, adrPekerja dataPekerja){
-    p = new elmRelation;
-
-    p->infoChild = dataPekerja;
-    p->nextChild = NULL;
-}
-
-void deleteElmPekerja(listPekerja &l, listLayanan lL, string namaPekerja){
-    adrPekerja del, beforeLoc;
-
-    del = findElmPekerja(l, namaPekerja);
-
-    if (l.first == NULL) {
-        del = NULL;
-        //dikarenakan tidak ada yang perlu di hapus serta ketika print data sudah di atur ketika list null akan memberikan keterangan list kosong
-    } else if (del == NULL) {
-        cout << "Tidak terdapat data yang tersedia pada list" << endl;
-    } else {
-        // KURANG LOGIKA PENGHAPUSAN RELATION PEKERJA YANG TERHUBUNG DENGAN LIST
-        if (l.first == l.last) {
-            l.first = NULL;
-            l.last = NULL;
-        } else if (l.first == del) {
-            l.first = del->next;
-            del->next = NULL;
-            l.first->prev = NULL;
-        } else if (l.last == del) {
-            l.last = del->prev;
-            del->prev = NULL;
-            l.last->next = NULL;
-        } else {
-            beforeLoc = del->prev;
-            del->next->prev = beforeLoc;
-            beforeLoc->next = del->next;
-            del->next = NULL;
-            del->prev = NULL;
+    else
+    {
+        AdrLayanan cur = L.first;
+        while (cur->next != nullptr)
+        {
+            cur = cur->next;
         }
-    }
-    if (del != NULL) {
-        cout << del->info.nama << " berhasil di hapus" << endl;
-        delete(del);
-        del = NULL;
+        cur->next = P;
     }
 }
 
-adrPekerja findElmPekerja(listPekerja l, string namaPekerja){
-    adrPekerja hasil, cur;
+void insertElmPekerja(ListPekerja &L, AdrPekerja P)
+{
+    if (L.first == nullptr)
+    {
+        L.first = P;
+        L.last = P;
+    }
+    else
+    {
+        P->prev = L.last;
+        L.last->next = P;
+        L.last = P;
+    }
+}
 
-    hasil = NULL;
-    cur = l.first;
+void insertElmRelation(AdrLayanan &P, AdrRelation Q)
+{
+    if (P->child == nullptr)
+    {
+        P->child = Q;
+    }
+    else
+    {
+        AdrRelation cur = P->child;
+        while (cur->nextChild != nullptr)
+        {
+            cur = cur->nextChild;
+        }
+        cur->nextChild = Q;
+    }
+    P->info.jumlahPekerja++;
+    Q->childPekerja->info.jumlahLayanan++;
+}
 
-    while (cur != NULL && hasil == NULL){
-        if (cur->info.nama == namaPekerja) {
-            hasil = cur;
+AdrLayanan findElmLayanan(ListLayanan L, string namaLayanan)
+{
+    AdrLayanan cur = L.first;
+    while (cur != nullptr)
+    {
+        if (cur->info.jenis == namaLayanan)
+        {
+            return cur;
         }
         cur = cur->next;
     }
-
-    return hasil;
+    return nullptr;
 }
 
-void showAllListPekerja(listPekerja l){
-    adrPekerja cur;
-
-    cur = l.first;
-
-    if (l.first == NULL) {
-        cout << "Tidak terdapat data pada list" << endl;
-    } else {
-        while (cur != NULL) {
-            cout << cur->info.nama << ", rating " << cur->info.rating << ", gender " << cur->info.gender << ", jumlah pekerjaan " << cur->info.jumlahLayanan << endl;
-            cur = cur->next;
-        }
-    }
-}
-
-void insertElmLayanan(listLayanan &l, adrLayanan p){
-    if (l.first == NULL) {
-        l.first = p;
-    } else {
-        adrLayanan cur;
-        cur = l.first;
-        while (cur->next != NULL) {
-            cur = cur->next;
-        }
-        cur->next = p;
-    }
-}
-
-void deleteElmLayanan(listLayanan &l, string namaLayanan) {
-    adrLayanan del, beforeDel;
-    adrRelation child;
-
-    del = findElmLayanan(l, namaLayanan);
-    // KURANG LOGIKA PENGHAPUSAN RELASI PEKERJAAN DARI ELM LAYANAN
-    if (l.first == NULL) {
-        del = NULL;
-    } else if (del == NULL){
-        cout << "Tidak terdapat data yang tersedia pada list" << endl;
-    } else if (l.first == del) {
-        l.first = del->next;
-        del->next = NULL;
-    } else {
-        beforeDel = l.first;
-        while (beforeDel->next != del) {
-            beforeDel = beforeDel->next;
-        }
-        beforeDel->next = del->next;
-        del->next = NULL;
-    }
-
-    if (del != NULL) {
-        cout << del->info.jenis << " berhasil dihapus" << endl;
-        delete(del);
-        del = NULL;
-    }
-}
-
-
-adrLayanan findElmLayanan(listLayanan l, string namaLayanan){
-    adrLayanan cur, hasil;
-
-    cur = l.first;
-    hasil = NULL;
-
-    while (cur != NULL && hasil == NULL) {
-        if (cur->info.jenis == namaLayanan) {
-            hasil = cur;
+AdrPekerja findElmPekerja(ListPekerja L, string namaPekerja)
+{
+    AdrPekerja cur = L.first;
+    while (cur != nullptr)
+    {
+        if (cur->info.nama == namaPekerja)
+        {
+            return cur;
         }
         cur = cur->next;
     }
-
-    return hasil;
+    return nullptr;
 }
 
-void showAllElmLayanan(listLayanan l){
-    if (l.first == NULL) {
-        cout << "Tidak terdapat data pada list" << endl;
-    } else {
-        adrLayanan cur;
-        cur = l.first;
-        while (cur != NULL) {
-            cout << cur->info.jenis << ", diskon layanan " << cur->info.diskonLayanan << ", jam layanan " << cur->info.jam << ", jumlah pekerja " << cur->info.jumlahPekerja << endl;
-            cur = cur->next;
-        }
-    }
-}
-
-
-//MASIH COBA - COBA (DEMO) UNTUK RELATION PADA PARENT DAH CHILD. AKAN DI BENAHI KETIKA PROGRESS 80%
-
-void insertElmRelation(listLayanan &lLayanan, listPekerja lPekerja, string namaLayanan, string namaPekerja){
-    adrLayanan locLayanan;
-    adrPekerja locPekerja;
-    adrRelation pRel, cur;
-
-    locLayanan = findElmLayanan(lLayanan, namaLayanan);
-    locPekerja = findElmPekerja(lPekerja, namaPekerja);
-
-    if (locLayanan != NULL && locPekerja != NULL) {
-        createElmRelation(pRel, locPekerja);
-        if (locLayanan->child.first == NULL) {
-            locLayanan->child.first = pRel;
-        } else {
-            cur = locLayanan->child.first;
-            while (cur->nextChild != NULL) {
-                cur = cur->nextChild;
-            }
-            cur->nextChild = pRel;
-        }
-    } else {
-        cout << "Tidak terdapat nama layanan atau nama pekerja" << endl;
-    }
-}
-
-void deleteElmRelation(listLayanan &lLayanan,listPekerja lPekerja, string namaLayanan, string namaPekerja){
-    adrLayanan locLayanan;
-    adrRelation cur, del, locRelation, beforeDel;
-
-    locLayanan = findElmLayanan(lLayanan, namaLayanan);
-    locRelation = findRelationFromPekerja(locLayanan, namaPekerja);
-    del = locRelation;
-
-    if (locLayanan != NULL && locRelation != NULL) {
-        if (locLayanan->child.first == locRelation) {
-            locLayanan->child.first = locRelation->nextChild;
-        } else {
-            beforeDel = locLayanan->child.first;
-            while (beforeDel->nextChild != NULL && beforeDel->nextChild != del) {
-                beforeDel = beforeDel->nextChild;
-            }
-            if (beforeDel->nextChild == locRelation) {
-                beforeDel->nextChild = locRelation->nextChild;
-            }
-        }
-    }
-
-    if (del != NULL){
-        delete(del);
-        del = NULL;
-    }
-}
-
-adrRelation findRelationFromPekerja(adrLayanan pLayanan, string namaPekerja) {
-    adrRelation hasil, cur;
-
-    cur = pLayanan->child.first;
-
-    while (cur != NULL) {
-        if (cur->infoChild->info.nama == namaPekerja) {
-            hasil = cur;
+AdrRelation findRelationByNamaPekerja(AdrLayanan P, string namaPekerja)
+{
+    AdrRelation cur = P->child;
+    while (cur != nullptr)
+    {
+        if (cur->childPekerja->info.nama == namaPekerja)
+        {
+            return cur;
         }
         cur = cur->nextChild;
     }
-
-    return hasil;
+    return nullptr;
 }
 
-void showChildOfParent(listLayanan lLayanan, string namaLayanan){
-    adrLayanan locLayanan;
-    adrRelation cur;
+AdrRelation findRelationByNamaLayanan(ListLayanan L, AdrPekerja P, string namaLayanan)
+{
+    AdrLayanan layanan = findElmLayanan(L, namaLayanan);
+    if (layanan == nullptr)
+    {
+        return nullptr;
+    }
+    AdrRelation cur = layanan->child;
+    while (cur != nullptr)
+    {
+        if (cur->childPekerja == P)
+        {
+            return cur;
+        }
+        cur = cur->nextChild;
+    }
+    return nullptr;
+}
 
-    locLayanan = findElmLayanan(lLayanan, namaLayanan);
+void deleteElmLayanan(ListLayanan &L, string namaLayanan, AdrLayanan &P)
+{
+    P = findElmLayanan(L, namaLayanan);
+    if (P == nullptr)
+    {
+        return;
+    }
 
-    if (locLayanan != NULL) {
-        cur = locLayanan->child.first;
-        if (locLayanan->child.first == NULL){
-            cout << "Layanan tidak memiliki pekerja" << endl;
-        } else {
-            while (cur != NULL) {
-                cout << cur->infoChild->info.nama << " " << cur->infoChild->info.gender << " " << cur->infoChild->info.rating << endl;
-                cur = cur->nextChild;
+    AdrRelation curRelation = P->child;
+    while (curRelation != nullptr)
+    {
+        AdrRelation tempRelation = curRelation;
+        curRelation = curRelation->nextChild;
+        tempRelation->childPekerja->info.jumlahLayanan--;
+        delete tempRelation;
+    }
+
+    if (L.first == P)
+    {
+        L.first = P->next;
+    }
+    else
+    {
+        AdrLayanan prev = L.first;
+        while (prev->next != P)
+        {
+            prev = prev->next;
+        }
+        prev->next = P->next;
+    }
+
+    delete P;
+}
+
+void deleteElmPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaPekerja, AdrPekerja &P)
+{
+    P = findElmPekerja(LPekerja, namaPekerja);
+    if (P == nullptr)
+    {
+        return;
+    }
+
+    AdrLayanan layanan = LLayanan.first;
+    while (layanan != nullptr)
+    {
+        AdrRelation prevRel = nullptr;
+        AdrRelation currRel = layanan->child;
+        while (currRel != nullptr)
+        {
+            if (currRel->childPekerja == P)
+            {
+                if (prevRel == nullptr)
+                {
+                    layanan->child = currRel->nextChild;
+                }
+                else
+                {
+                    prevRel->nextChild = currRel->nextChild;
+                }
+                layanan->info.jumlahPekerja--;
+                AdrRelation tempRel = currRel;
+                currRel = nullptr;
+                delete tempRel;
+            }
+            else
+            {
+                prevRel = currRel;
+                currRel = currRel->nextChild;
             }
         }
+        layanan = layanan->next;
+    }
+
+    if (LPekerja.first == LPekerja.last)
+    {
+        LPekerja.first = nullptr;
+        LPekerja.last = nullptr;
+    }
+    else if (P == LPekerja.first)
+    {
+        LPekerja.first = P->next;
+        LPekerja.first->prev = nullptr;
+    }
+    else if (P == LPekerja.last)
+    {
+        LPekerja.last = P->prev;
+        LPekerja.last->next = nullptr;
+    }
+    else
+    {
+        P->prev->next = P->next;
+        P->next->prev = P->prev;
+    }
+
+    delete P;
+}
+
+void deleteElmRelation(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaLayanan, string namaPekerja, AdrRelation &P)
+{
+    AdrLayanan layanan = findElmLayanan(LLayanan, namaLayanan);
+    AdrPekerja pekerja = findElmPekerja(LPekerja, namaPekerja);
+    if (layanan == nullptr || pekerja == nullptr)
+    {
+        P = nullptr;
+        return;
+    }
+    AdrRelation prev = nullptr;
+    AdrRelation cur = layanan->child;
+    while (cur != nullptr)
+    {
+        if (cur->childPekerja == pekerja)
+        {
+            if (prev == nullptr)
+            {
+                layanan->child = cur->nextChild;
+            }
+            else
+            {
+                prev->nextChild = cur->nextChild;
+            }
+            cur->nextChild = nullptr;
+            layanan->info.jumlahPekerja--;
+            pekerja->info.jumlahLayanan--;
+            P = cur;
+            delete P;
+            return;
+        }
+        prev = cur;
+        cur = cur->nextChild;
+    }
+}
+
+void showAllListLayanan(ListLayanan L)
+{
+    AdrLayanan cur = L.first;
+    while (cur != nullptr)
+    {
+        cout << "Layanan: " << cur->info.jenis << endl;
+        cout << "Jam: " << cur->info.jam << endl;
+        cout << "Jumlah Pekerja: " << cur->info.jumlahPekerja << endl;
+        cout << "Diskon Layanan: " << cur->info.diskonLayanan << endl;
+        cout << endl;
+        cur = cur->next;
+    }
+}
+
+void showAllListPekerja(ListPekerja L)
+{
+    AdrPekerja cur = L.first;
+    while (cur != nullptr)
+    {
+        cout << "Nama: " << cur->info.nama << endl;
+        cout << "Gender: " << cur->info.gender << endl;
+        cout << "Jumlah Layanan: " << cur->info.jumlahLayanan << endl;
+        cout << "Rating: " << cur->info.rating << endl;
+        cout << endl;
+        cur = cur->next;
     }
 }
