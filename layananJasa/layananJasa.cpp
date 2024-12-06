@@ -86,6 +86,11 @@ void insertElmRelation(AdrLayanan &P, AdrRelation Q)
     Q->childPekerja->info.jumlahLayanan++;
 }
 
+void editElmPekerja(AdrPekerja &P, InfotypePekerja info)
+{
+    P->info = info;
+}
+
 AdrLayanan findElmLayanan(ListLayanan L, string namaLayanan)
 {
     AdrLayanan cur = L.first;
@@ -279,6 +284,84 @@ void deleteElmRelation(ListLayanan &LLayanan, ListPekerja &LPekerja, string nama
     }
 }
 
+int countAllLayanan(ListLayanan L)
+{
+    int count = 0;
+    AdrLayanan cur = L.first;
+    while (cur != nullptr)
+    {
+        count++;
+        cur = cur->next;
+    }
+    return count;
+}
+
+int countAllPekerja(ListPekerja L)
+{
+    int count = 0;
+    AdrPekerja cur = L.first;
+    while (cur != nullptr)
+    {
+        count++;
+        cur = cur->next;
+    }
+    return count;
+}
+
+int countAllRelation(ListLayanan LLayanan)
+{
+    int count = 0;
+    AdrLayanan cur = LLayanan.first;
+    while (cur != nullptr)
+    {
+        int jumlahPekerja = cur->info.jumlahPekerja;
+        count += jumlahPekerja;
+        cur = cur->next;
+    }
+    return count;
+}
+
+int countAllRelationByNamaLayanan(ListLayanan LLayanan, string namaLayanan)
+{
+    AdrLayanan layanan = findElmLayanan(LLayanan, namaLayanan);
+    if (layanan == nullptr)
+    {
+        return 0;
+    }
+    int count = 0;
+    int jumlahPekerja = layanan->info.jumlahPekerja;
+    count += jumlahPekerja;
+    return count;
+}
+
+int countAllRelationByNamaPekerja(ListLayanan LLayanan, ListPekerja LPekerja, string namaPekerja)
+{
+    AdrPekerja pekerja = findElmPekerja(LPekerja, namaPekerja);
+    if (pekerja == nullptr)
+    {
+        return 0;
+    }
+    int count = 0;
+    int jumlahLayanan = pekerja->info.jumlahLayanan;
+    count += jumlahLayanan;
+    return count;
+}
+
+int countPekerjaTanpaLayanan(ListLayanan LLayanan, ListPekerja LPekerja)
+{
+    int count = 0;
+    AdrPekerja cur = LPekerja.first;
+    while (cur != nullptr)
+    {
+        if (cur->info.jumlahLayanan == 0)
+        {
+            count++;
+        }
+        cur = cur->next;
+    }
+    return count;
+}
+
 void showAllListLayanan(ListLayanan L)
 {
     AdrLayanan cur = L.first;
@@ -303,6 +386,73 @@ void showAllListPekerja(ListPekerja L)
         cout << "Jumlah Layanan: " << cur->info.jumlahLayanan << endl;
         cout << "Rating: " << cur->info.rating << endl;
         cout << endl;
+        cur = cur->next;
+    }
+}
+
+void showAllRelation(ListLayanan LLayanan)
+{
+    AdrLayanan cur = LLayanan.first;
+    while (cur != nullptr)
+    {
+        cout << "Layanan: " << cur->info.jenis << endl;
+        cout << "Jam: " << cur->info.jam << endl;
+        cout << "Jumlah Pekerja: " << cur->info.jumlahPekerja << endl;
+        cout << "Diskon Layanan: " << cur->info.diskonLayanan << endl;
+        cout << endl;
+
+        AdrRelation curRelation = cur->child;
+        while (curRelation != nullptr)
+        {
+            cout << "Nama Pekerja: " << curRelation->childPekerja->info.nama << endl;
+        }
+        cout << endl;
+        cur = cur->next;
+    }
+}
+
+void showAllRelationByNamaLayanan(ListLayanan LLayanan, string namaLayanan)
+{
+    AdrLayanan layanan = findElmLayanan(LLayanan, namaLayanan);
+
+    if (layanan == nullptr)
+    {
+        return;
+    }
+
+    AdrRelation cur = layanan->child;
+    while (cur != nullptr)
+    {
+        cout << "Nama Pekerja: " << cur->childPekerja->info.nama << endl;
+        cout << "Gender: " << cur->childPekerja->info.gender << endl;
+        cout << "Jumlah Layanan: " << cur->childPekerja->info.jumlahLayanan << endl;
+        cout << "Rating: " << cur->childPekerja->info.rating << endl;
+        cout << endl;
+        cur = cur->nextChild;
+    }
+}
+
+void showAllRelationByNamaPekerja(ListLayanan LLayanan, ListPekerja LPekerja, string namaPekerja)
+{
+    AdrPekerja pekerja = findElmPekerja(LPekerja, namaPekerja);
+
+    if (pekerja == nullptr)
+    {
+        return;
+    }
+
+    AdrLayanan cur = LLayanan.first;
+    while (cur != nullptr)
+    {
+        AdrRelation relation = findRelationByNamaLayanan(LLayanan, pekerja, cur->info.jenis);
+        if (relation != nullptr)
+        {
+            cout << "Layanan: " << cur->info.jenis << endl;
+            cout << "Jam: " << cur->info.jam << endl;
+            cout << "Jumlah Pekerja: " << cur->info.jumlahPekerja << endl;
+            cout << "Diskon Layanan: " << cur->info.diskonLayanan << endl;
+            cout << endl;
+        }
         cur = cur->next;
     }
 }

@@ -63,6 +63,7 @@ void createElmRelation(AdrRelation &P, AdrPekerja childPekerja);
 void insertElmLayanan(ListLayanan &L, AdrLayanan P);
 void insertElmPekerja(ListPekerja &L, AdrPekerja P);
 void insertElmRelation(AdrLayanan &P, AdrRelation Q);
+void editElmPekerja(AdrPekerja &P, InfotypePekerja info);
 AdrLayanan findElmLayanan(ListLayanan L, string namaLayanan);
 AdrPekerja findElmPekerja(ListPekerja L, string namaPekerja);
 AdrRelation findRelationByNamaPekerja(AdrLayanan P, string namaPekerja);
@@ -70,9 +71,14 @@ AdrRelation findRelationByNamaLayanan(ListLayanan L, AdrPekerja P, string namaLa
 void deleteElmLayanan(ListLayanan &L, string namaLayanan, AdrLayanan &P);
 void deleteElmPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaPekerja, AdrPekerja &P);
 void deleteElmRelation(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaLayanan, string namaPekerja, AdrRelation &P);
+int countAllLayanan(ListLayanan L);
+int countAllPekerja(ListPekerja L);
+int countAllRelation(ListLayanan LLayanan);
+int countAllRelationByNamaLayanan(ListLayanan LLayanan, string namaLayanan);
+int countAllRelationByNamaPekerja(ListLayanan LLayanan, ListPekerja LPekerja, string namaPekerja);
+int countPekerjaTanpaLayanan(ListLayanan LLayanan, ListPekerja LPekerja);
 void showAllListLayanan(ListLayanan L);
 void showAllListPekerja(ListPekerja L);
-// TODO: Implement the following functions
+void showAllRelation(ListLayanan LLayanan);
+void showAllRelationByNamaLayanan(ListLayanan LLayanan, string namaLayanan);
 void showAllRelationByNamaPekerja(ListLayanan LLayanan, ListPekerja LPekerja, string namaPekerja);
-void showAllRelationByNamaLayanan(ListLayanan LLayanan, ListPekerja LPekerja, string namaLayanan);
-// TODO: End of implementation

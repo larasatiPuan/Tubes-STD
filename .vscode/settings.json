@@ -5,6 +5,9 @@
     "span": "cpp",
     "ostream": "cpp",
     "string": "cpp",
-    "format": "cpp"
+    "format": "cpp",
+    "*.tcc": "cpp",
+    "exception": "cpp",
+    "*.inc": "cpp"
   }
 }
