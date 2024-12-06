@@ -86,9 +86,19 @@ void insertElmRelation(AdrLayanan &P, AdrRelation Q)
     Q->childPekerja->info.jumlahLayanan++;
 }
 
+void editElmLayanan(AdrLayanan &P, InfotypeLayanan info)
+{
+    P->info = info;
+}
+
 void editElmPekerja(AdrPekerja &P, InfotypePekerja info)
 {
     P->info = info;
+}
+
+void editElmRelation(AdrRelation &P, AdrPekerja childPekerja)
+{
+    P->childPekerja = childPekerja;
 }
 
 AdrLayanan findElmLayanan(ListLayanan L, string namaLayanan)
