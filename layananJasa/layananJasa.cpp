@@ -375,6 +375,7 @@ int countPekerjaTanpaLayanan(ListLayanan LLayanan, ListPekerja LPekerja)
 void showAllListLayanan(ListLayanan L)
 {
     AdrLayanan cur = L.first;
+    cout << "List Layanan " << endl;
     while (cur != nullptr)
     {
         cout << "Layanan: " << cur->info.jenis << endl;
@@ -389,6 +390,7 @@ void showAllListLayanan(ListLayanan L)
 void showAllListPekerja(ListPekerja L)
 {
     AdrPekerja cur = L.first;
+    cout << "List Pekerja " << endl;
     while (cur != nullptr)
     {
         cout << "Nama: " << cur->info.nama << endl;
@@ -431,6 +433,7 @@ void showAllRelationByNamaLayanan(ListLayanan LLayanan, string namaLayanan)
     }
 
     AdrRelation cur = layanan->child;
+    cout << "List Relasi Layanan " << layanan->info.jenis << endl;
     while (cur != nullptr)
     {
         cout << "Nama Pekerja: " << cur->childPekerja->info.nama << endl;
