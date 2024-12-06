@@ -1,94 +1,110 @@
+#include <iostream>
 #include "layananJasa.h"
+
+using namespace std;
 
 int main()
 {
-    // NOTE : MAIN MASIH HANYA TESTIN, BELUM PENGAPLIKASIAN PROGRAM
+    ListLayanan LLayanan;
+    ListPekerja LPekerja;
+    createListLayanan(LLayanan);
+    createListPekerja(LPekerja);
 
-    listPekerja lPekerja;
-    infotypePekerja data;
-    adrPekerja pPekerja;
-    string tempNama, tempNama2;
-    int nData;
+    for (size_t i = 0; i < 3; i++)
+    {
+        InfotypeLayanan ILayanan;
+        AdrLayanan ALayanan;
+        cout << "Masukkan data Layanan" << i + 1 << endl;
+        cout << "Jenis Layanan: ";
+        cin >> ILayanan.jenis;
+        cout << "Jam Layanan: ";
+        cin >> ILayanan.jam;
+        cout << "Diskon Layanan: ";
+        cin >> ILayanan.diskonLayanan;
+        ILayanan.jumlahPekerja = 0;
 
-    listLayanan lLayanan;
-    infotypeLayanan dataLayanan;
-    adrLayanan pLayanan;
-    string namaLayanan;
-
-    createListPekerja(lPekerja);
-    createListLayanan(lLayanan);
-
-    cout << "Masukan 4 data pekerja" << endl;
-    for (int i = 0; i < 4; i++) {
-        cout << "Nama : ";
-        cin >> data.nama;
-        cout << "Jumlah layanan : ";
-        cin >> data.jumlahLayanan;
-        cout << "Rating : ";
-        cin >> data.rating;
-        cout << "Gender : ";
-        cin >> data.gender;
-        createElmPekerja(pPekerja, data);
-        insertElmPekerja(lPekerja, pPekerja);
-    }
-    showAllListPekerja(lPekerja);
-
-
-    cout << endl << endl;
-
-    cout << "Masukan 3 data layanan" << endl;
-    for (int i = 0; i < 3; i++) {
-        cout << "Jenis : ";
-        cin >> dataLayanan.jenis;
-        cout << "Jam : ";
-        cin >> dataLayanan.jam;
-        cout << "Jumlah pekerja : ";
-        cin >> dataLayanan.jumlahPekerja;
-        cout << "Diskon : ";
-        cin >> dataLayanan.diskonLayanan;
-        createElmLayanan(pLayanan, dataLayanan);
-        insertElmLayanan(lLayanan, pLayanan);
-    }
-    cout << endl;
-    showAllElmLayanan(lLayanan);
-
-    cout << endl << endl;
-
-    /* cout << endl << endl << "PROSES RELATION" << endl << endl;
-    for (int i = 0; i < 2; i++) {
-        cout << "Masukan nama layanan : ";
-        cin >> tempNama;
-        cout << "Masukan nama pekerja : ";
-        cin >> tempNama2;
-        insertElmRelation(lLayanan, lPekerja, tempNama, tempNama2);
+        createElmLayanan(ALayanan, ILayanan);
+        insertElmLayanan(LLayanan, ALayanan);
     }
 
+    for (size_t i = 0; i < 4; i++)
+    {
+        InfotypePekerja IPekerja;
+        AdrPekerja APekerja;
 
-    cout << "Masukan nama child dari layanan yang akan di tampilkan : ";
-    cin >> tempNama2;
-    showChildOfParent(lLayanan, tempNama2);
+        cout << "Masukkan data Pekerja" << endl;
+        cout << "Nama Pekerja: ";
+        cin >> IPekerja.nama;
+        cout << "Gender Pekerja: ";
+        cin >> IPekerja.gender;
+        cout << "Rating Pekerja: ";
+        cin >> IPekerja.rating;
+        IPekerja.jumlahLayanan = 0;
 
-
-    cout << endl << endl << "PROSES HAPUS RELATION" << endl << endl;
-    for (int i = 0; i < 2; i++){
-        cout << "Masukan nama layanan : ";
-        cin >> tempNama;
-        cout << "Masukan nama pekerja : ";
-        cin >> tempNama2;
-        deleteElmRelation(lLayanan, lPekerja, tempNama, tempNama2);
-        showChildOfParent(lLayanan, tempNama);
-    } */
-
-    cout << "Masukan data pekerja yang akan di hapus" << endl;
-    for (int i = 0; i < 5; i++){
-        cout << "Masukan nama data yang akan anda hapus :";
-        cin >> tempNama;
-        deleteElmPekerja(lPekerja, lLayanan, tempNama);
-        cout << endl;
-        cout << "Testing relation" << endl;
-        showAllListPekerja(lPekerja);
-        cout << endl;
+        createElmPekerja(APekerja, IPekerja);
+        insertElmPekerja(LPekerja, APekerja);
     }
-    cout << endl;
+    AdrRelation ARelation;
+    AdrLayanan ALayanan;
 
+    AdrPekerja pekerjaYanto = findElmPekerja(LPekerja, "Yanto");
+
+    createElmRelation(ARelation, pekerjaYanto);
+    ALayanan = findElmLayanan(LLayanan, "Perbaikan_Rumah");
+    insertElmRelation(ALayanan, ARelation);
+
+    AdrPekerja pekerjaWinter = findElmPekerja(LPekerja, "Winter");
+
+    createElmRelation(ARelation, pekerjaWinter);
+    ALayanan = findElmLayanan(LLayanan, "Pembersihan_Rumah");
+    insertElmRelation(ALayanan, ARelation);
+
+    AdrPekerja pekerjaBrian = findElmPekerja(LPekerja, "Brian");
+
+    createElmRelation(ARelation, pekerjaBrian);
+    ALayanan = findElmLayanan(LLayanan, "Home_Automation");
+    insertElmRelation(ALayanan, ARelation);
+
+    AdrPekerja pekerjaKarina = findElmPekerja(LPekerja, "Karina");
+
+    createElmRelation(ARelation, pekerjaKarina);
+    ALayanan = findElmLayanan(LLayanan, "Pembersihan_Rumah");
+    insertElmRelation(ALayanan, ARelation);
+
+    InfotypePekerja tempPekerja = pekerjaYanto->info;
+    tempPekerja.nama = "Budi";
+    editElmPekerja(pekerjaYanto, tempPekerja);
+
+    AdrLayanan perbaikanRumah = findElmLayanan(LLayanan, "Perbaikan_Rumah");
+    AdrRelation budiPerbaikanRumah = findRelationByNamaPekerja(perbaikanRumah, "Budi");
+    if (budiPerbaikanRumah != nullptr)
+    {
+        cout << "Budi bekerja di Perbaikan Rumah" << endl;
+    }
+
+    deleteElmPekerja(LLayanan, LPekerja, "Brian", pekerjaBrian);
+
+    int jumlahLayanan = countAllLayanan(LLayanan);
+    cout << "Jumlah Layanan: " << jumlahLayanan << endl;
+
+    int jumlahPekerja = countAllPekerja(LPekerja);
+    cout << "Jumlah Pekerja: " << jumlahPekerja << endl;
+
+    int jumlahRelation = countAllRelation(LLayanan);
+    cout << "Jumlah Relation: " << jumlahRelation << endl;
+
+    int jumlahPekerjaPembersihanRumah = countAllRelationByNamaLayanan(LLayanan, "Pembersihan_Rumah");
+    cout << "Jumlah Pekerja Pembersihan Rumah: " << jumlahPekerjaPembersihanRumah << endl;
+
+    showAllListLayanan(LLayanan);
+    showAllListPekerja(LPekerja);
+
+    showAllRelationByNamaLayanan(LLayanan, "Pembersihan_Rumah");
+
+    // Perbaikan rumah yanto
+    // Pembersihan rumah winter
+    // Home automation Brian
+    // Pembersihan rumah Karina
+
+    return 0;
 }
