@@ -294,6 +294,26 @@ void deleteElmRelation(ListLayanan &LLayanan, ListPekerja &LPekerja, string nama
     }
 }
 
+void deleteAllElemRelationByNamaPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaPekerja)
+{
+    AdrPekerja pekerja = findElmPekerja(LPekerja, namaPekerja);
+    if (pekerja == nullptr)
+    {
+        return;
+    }
+
+    AdrLayanan cur = LLayanan.first;
+    while (cur != nullptr)
+    {
+        AdrRelation relation = findRelationByNamaLayanan(LLayanan, pekerja, cur->info.jenis);
+        if (relation != nullptr)
+        {
+            deleteElmRelation(LLayanan, LPekerja, cur->info.jenis, pekerja->info.nama, relation);
+        }
+        cur = cur->next;
+    }
+}
+
 int countAllLayanan(ListLayanan L)
 {
     int count = 0;
@@ -380,6 +400,7 @@ void showAllListLayanan(ListLayanan L)
     {
         cout << "Layanan: " << cur->info.jenis << endl;
         cout << "Jam: " << cur->info.jam << endl;
+        cout << "Harga: " << cur->info.harga << endl;
         cout << "Jumlah Pekerja: " << cur->info.jumlahPekerja << endl;
         cout << "Diskon Layanan: " << cur->info.diskonLayanan << endl;
         cout << endl;
@@ -409,6 +430,7 @@ void showAllRelation(ListLayanan LLayanan)
     {
         cout << "Layanan: " << cur->info.jenis << endl;
         cout << "Jam: " << cur->info.jam << endl;
+        cout << "Harga: " << cur->info.harga << endl;
         cout << "Jumlah Pekerja: " << cur->info.jumlahPekerja << endl;
         cout << "Diskon Layanan: " << cur->info.diskonLayanan << endl;
         cout << endl;
@@ -462,6 +484,7 @@ void showAllRelationByNamaPekerja(ListLayanan LLayanan, ListPekerja LPekerja, st
         {
             cout << "Layanan: " << cur->info.jenis << endl;
             cout << "Jam: " << cur->info.jam << endl;
+            cout << "Harga: " << cur->info.harga << endl;
             cout << "Jumlah Pekerja: " << cur->info.jumlahPekerja << endl;
             cout << "Diskon Layanan: " << cur->info.diskonLayanan << endl;
             cout << endl;

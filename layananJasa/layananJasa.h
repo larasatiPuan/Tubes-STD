@@ -12,6 +12,7 @@ struct Layanan
 {
     string jenis;
     string jam;
+    int harga;
     int jumlahPekerja;
     float diskonLayanan;
 };
@@ -73,6 +74,7 @@ AdrRelation findRelationByNamaLayanan(ListLayanan L, AdrPekerja P, string namaLa
 void deleteElmLayanan(ListLayanan &L, string namaLayanan, AdrLayanan &P);
 void deleteElmPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaPekerja, AdrPekerja &P);
 void deleteElmRelation(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaLayanan, string namaPekerja, AdrRelation &P);
+void deleteAllElemRelationByNamaPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja, string namaPekerja);
 int countAllLayanan(ListLayanan L);
 int countAllPekerja(ListPekerja L);
 int countAllRelation(ListLayanan LLayanan);
