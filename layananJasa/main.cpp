@@ -117,6 +117,8 @@ void addPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja)
   cin >> pekerja.rating;
 
   pekerja.jumlahLayanan = 0;
+  pekerja.jumlahPemesanan = 0;
+  pekerja.totalRating = 0;
 
   AdrPekerja PPekerja;
   createElmPekerja(PPekerja, pekerja);
@@ -233,14 +235,6 @@ void editPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja)
   if (pekerja.gender == "0")
   {
     pekerja.gender = PPekerja->info.gender;
-  }
-
-  cout << "Masukkan Rating (0 jika tidak berubah): ";
-  cin >> pekerja.rating;
-
-  if (pekerja.rating == 0)
-  {
-    pekerja.rating = PPekerja->info.rating;
   }
 
   pekerja.jumlahLayanan = PPekerja->info.jumlahLayanan;
@@ -372,7 +366,23 @@ void pesanLayanan(ListLayanan LLayanan, ListPekerja LPekerja)
     }
   } while (confirm != "y" && confirm != "n");
 
-  cout << "Pekerja berhasil dipesan" << endl;
+  if (confirm == "y")
+  {
+    int rating;
+    cout << "Pekerja berhasil dipesan" << endl;
+    cout << "Silahkan memberikan rating (1-5)" << endl;
+    cout << "Rating (1-5): ";
+    cin >> rating;
+    while (rating < 1 || rating > 5)
+    {
+      cout << "Rating tidak valid. Silahkan coba lagi." << endl;
+      cout << "Rating (1-5): ";
+      cin >> rating;
+    }
+    PPekerja->info.jumlahPemesanan++;
+    PPekerja->info.totalRating += rating;
+    PPekerja->info.rating = static_cast<float>(PPekerja->info.totalRating) / PPekerja->info.jumlahPemesanan;
+  }
 }
 
 void showPekerjaByLayanan(ListLayanan LLayanan)

@@ -23,6 +23,8 @@ struct Pekerja
     string gender;
     int jumlahLayanan;
     float rating;
+    int jumlahPemesanan;
+    int totalRating;
 };
 
 struct ElmLayanan
