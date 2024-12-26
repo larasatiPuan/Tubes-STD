@@ -275,23 +275,25 @@ void editPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja)
       cout << "Masukkan jenis layanan yang ingin dikerjakan (0 untuk selesai): " << endl;
       cin >> choice;
 
-      AdrLayanan PLayananFound = findElmLayanan(LLayanan, choice);
+      if (choice != "0")
+      {
+        AdrLayanan PLayananFound = findElmLayanan(LLayanan, choice);
+        if (PLayananFound == nullptr)
+        {
+          cout << "Layanan dengan jenis tersebut tidak ditemukan !" << endl;
+        }
+        else if (findRelationByNamaPekerja(PLayananFound, pekerja.nama) != nullptr)
+        {
+          cout << "Pekerja sudah termasuk ke layanan tersebut !" << endl;
+        }
+        else
+        {
+          AdrRelation PRelation;
+          createElmRelation(PRelation, PPekerja);
+          insertElmRelation(PLayananFound, PRelation);
 
-      if (PLayananFound == nullptr)
-      {
-        cout << "Layanan dengan jenis tersebut tidak ditemukan !" << endl;
-      }
-      else if (findRelationByNamaPekerja(PLayananFound, pekerja.nama) != nullptr)
-      {
-        cout << "Pekerja sudah termasuk ke layanan tersebut !" << endl;
-      }
-      else
-      {
-        AdrRelation PRelation;
-        createElmRelation(PRelation, PPekerja);
-        insertElmRelation(PLayananFound, PRelation);
-
-        cout << "Pekerja berhasil ditambahkan ke Layanan" << endl;
+          cout << "Pekerja berhasil ditambahkan ke Layanan" << endl;
+        }
       }
     } while (choice != "0");
   }
