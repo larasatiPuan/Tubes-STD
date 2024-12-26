@@ -297,7 +297,7 @@ void editPekerja(ListLayanan &LLayanan, ListPekerja &LPekerja)
 
 // Start User Menu Section
 
-void pesanLayanan(ListLayanan LLayanan, ListPekerja LPekerja)
+void pesanLayanan(ListLayanan LLayanan, ListPekerja &LPekerja)
 {
   string namaPekerja, jenisLayanan;
 
